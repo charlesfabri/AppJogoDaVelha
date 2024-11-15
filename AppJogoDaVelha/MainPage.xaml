@@ -4,28 +4,39 @@
              x:Class="AppJogoDaVelha.MainPage">
 
     <ContentPage.Background>
-        <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-            <GradientStop Color="Purple" Offset="0.3"/>
-            <GradientStop Color="Red" Offset="1.1"/>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#000000" Offset="0.0"/>
+            <GradientStop Color="#434343" Offset="1.0"/>
         </LinearGradientBrush>
     </ContentPage.Background>
 
     <ContentPage.Resources>
         <Style TargetType="Button">
             <Setter Property="BackgroundColor" Value="Transparent"/>
+            <!-- Fundo transparente -->
             <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="TextColor" Value="White"/>
-            <Setter Property="FontSize" Value="80"/>
-            <Setter Property="BorderWidth" Value="1"/>
-            <Setter Property="BorderColor" Value="White"/>
+            <!-- Cantos mais arredondados -->
+            <Setter Property="TextColor" Value="#FFFFFF"/>
+            <!-- Texto branco -->
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="BorderWidth" Value="2"/>
+            <Setter Property="BorderColor" Value="#FFFFFF"/>
+            <!-- Borda branca -->
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="#000000" Opacity="0.2" Offset="2,2" Radius="5"/>
+                    <!-- Sombra mais suave -->
+                </Setter.Value>
+            </Setter>
         </Style>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*, *, *, *" ColumnDefinitions="*, *, *"
-          ColumnSpacing="10" RowSpacing="10" Margin="10">
+    <Grid RowDefinitions="Auto, *, *, *" ColumnDefinitions="*, *, *"
+          ColumnSpacing="15" RowSpacing="15" Margin="30">
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-               Text="Jogo da Velha" FontSize="24" FontAttributes="Bold"
-               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+               Text="Jogo da Velha" FontSize="32" FontAttributes="Bold"
+               TextColor="#FFFFFF" HorizontalOptions="Center" VerticalOptions="Center"
+               FontFamily="Arial"/>
 
         <Button x:Name="btn10" Grid.Row="1" Grid.Column="0" Clicked="Button_Clicked"/>
         <Button x:Name="btn11" Grid.Row="1" Grid.Column="1" Clicked="Button_Clicked"/>
@@ -38,7 +49,6 @@
         <Button x:Name="btn30" Grid.Row="3" Grid.Column="0" Clicked="Button_Clicked"/>
         <Button x:Name="btn31" Grid.Row="3" Grid.Column="1" Clicked="Button_Clicked"/>
         <Button x:Name="btn32" Grid.Row="3" Grid.Column="2" Clicked="Button_Clicked"/>
-
     </Grid>
 
 </ContentPage>

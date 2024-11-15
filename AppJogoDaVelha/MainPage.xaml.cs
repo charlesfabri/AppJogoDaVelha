@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Maui.Controls;
-using Plugin.Maui.Audio;
-using System.Threading.Tasks;
+﻿using Plugin.Maui.Audio;
 
 namespace AppJogoDaVelha
 {
@@ -10,62 +7,119 @@ namespace AppJogoDaVelha
         string vez = "X";
         int jogadas = 0;
         IAudioPlayer player;
-
         public MainPage()
         {
             InitializeComponent();
             InicializarPlayer();
         }
 
-        // Método assíncrono para inicializar o player de áudio
         private async void InicializarPlayer()
         {
             var audioManager = AudioManager.Current;
             player = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("click.mp3"));
         }
 
-        // Evento de clique do botão
         private void Button_Clicked(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            player.Play(); // Tocar som ao clicar no botão
-            btn.IsEnabled = false;
-            btn.Text = vez;
-            vez = vez == "X" ? "O" : "X"; // Alternar vez
-            jogadas++; // Incrementar contador de jogadas
+            // tocar o som ao tocar no botão
+            player.Play();
 
-            // Verificar se há um vencedor ou empate
-            if (VerificarVencedor("X") || VerificarVencedor("O") || jogadas == 9)
+            Button btn = (Button)sender;
+
+            btn.IsEnabled = false;
+
+            if (vez == "X")
             {
-                string mensagem = jogadas == 9 ? "Empate, ninguém ganhou!" : $"Parabéns, o {btn.Text} ganhou!";
-                DisplayAlert("Resultado", mensagem, "OK");
+
+                btn.Text = "X";
+                vez = "O";
+            }
+            else
+            {
+                btn.Text = "O";
+                vez = "X";
+            }
+
+            jogadas++;// incrementa o contador de jogadas
+
+            // Verifica se o X ganhou em uma das linhas
+            if ((btn10.Text == "X" && btn11.Text == "X" && btn12.Text == "X" ||
+                btn20.Text == "X" && btn21.Text == "X" && btn22.Text == "X" ||
+                btn30.Text == "X" && btn31.Text == "X" && btn32.Text == "X"))
+            {
+                DisplayAlert("Parabéns", "O X ganhou!", "OK");
+                Zerar();
+                return;
+            }
+
+            // Verifica se o X ganhou em uma das colunas
+            if (btn10.Text == "X" && btn20.Text == "X" && btn30.Text == "X" ||
+                btn11.Text == "X" && btn21.Text == "X" && btn31.Text == "X" ||
+                btn12.Text == "X" && btn22.Text == "X" && btn32.Text == "X")
+            {
+                DisplayAlert("Parabéns", "O X ganhou!", "OK");
+                Zerar();
+                return;
+            }
+
+            // Verifica se o X ganhou em uma das diagonais
+            if (btn10.Text == "X" && btn21.Text == "X" && btn32.Text == "X" ||
+                btn12.Text == "X" && btn21.Text == "X" && btn30.Text == "X")
+            {
+                DisplayAlert("Parabéns", "O X ganhou!", "OK");
+                Zerar();
+                return;
+            }
+
+            // Verifica se o 0 ganhou
+            if (btn10.Text == "0" && btn11.Text == "0" && btn12.Text == "0" ||
+                btn20.Text == "0" && btn21.Text == "0" && btn22.Text == "0" ||
+                btn30.Text == "0" && btn31.Text == "0" && btn32.Text == "0" ||
+                btn10.Text == "0" && btn20.Text == "0" && btn30.Text == "0" ||
+                btn11.Text == "0" && btn21.Text == "0" && btn31.Text == "0" ||
+                btn12.Text == "0" && btn22.Text == "0" && btn32.Text == "0" ||
+                btn10.Text == "0" && btn21.Text == "0" && btn32.Text == "0" ||
+                btn12.Text == "0" && btn21.Text == "0" && btn30.Text == "0")
+            {
+                DisplayAlert("Parabéns", "O 0 ganhou!", "OK");
+                Zerar();
+                return;
+            }
+
+            // Verifica se deu empate
+            if (jogadas == 9)
+            {
+                DisplayAlert("Empate", "Ninguém ganhou!", "OK");
                 Zerar();
             }
+
+        }// fecha método
+
+        void Zerar()
+        {
+            btn10.Text = "";
+            btn11.Text = "";
+            btn12.Text = "";
+            btn20.Text = "";
+            btn21.Text = "";
+            btn22.Text = "";
+            btn30.Text = "";
+            btn31.Text = "";
+            btn32.Text = "";
+
+            btn10.IsEnabled = true;
+            btn11.IsEnabled = true;
+            btn12.IsEnabled = true;
+            btn20.IsEnabled = true;
+            btn21.IsEnabled = true;
+            btn22.IsEnabled = true;
+            btn30.IsEnabled = true;
+            btn31.IsEnabled = true;
+            btn32.IsEnabled = true;
+
+            vez = "X"; // reincia a  vez para X.
+            jogadas = 0;  // reinciar o contador de jogadas
         }
 
-        // Método para verificar se há um vencedor
-        private bool VerificarVencedor(string jogador)
-        {
-            return (btn10.Text == jogador && btn11.Text == jogador && btn12.Text == jogador ||
-                    btn20.Text == jogador && btn21.Text == jogador && btn22.Text == jogador ||
-                    btn30.Text == jogador && btn31.Text == jogador && btn32.Text == jogador ||
-                    btn10.Text == jogador && btn20.Text == jogador && btn30.Text == jogador ||
-                    btn11.Text == jogador && btn21.Text == jogador && btn31.Text == jogador ||
-                    btn12.Text == jogador && btn22.Text == jogador && btn32.Text == jogador ||
-                    btn10.Text == jogador && btn21.Text == jogador && btn32.Text == jogador ||
-                    btn12.Text == jogador && btn21.Text == jogador && btn30.Text == jogador);
-        }
-
-        // Método para reiniciar o jogo
-        private void Zerar()
-        {
-            foreach (var btn in new[] { btn10, btn11, btn12, btn20, btn21, btn22, btn30, btn31, btn32 })
-            {
-                btn.Text = "";
-                btn.IsEnabled = true;
-            }
-            vez = "X"; // Reiniciar a vez para X
-            jogadas = 0; // Reiniciar o contador de jogadas
-        }
-    }
-}
+    } // fecha classe
+} // fecha namespace
