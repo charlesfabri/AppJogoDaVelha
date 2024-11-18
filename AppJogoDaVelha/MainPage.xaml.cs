@@ -97,7 +97,7 @@ namespace AppJogoDaVelha
 
         void Zerar()
         {
-            btn10.Text = "";
+            btn10.Text = "";  
             btn11.Text = "";
             btn12.Text = "";
             btn20.Text = "";
